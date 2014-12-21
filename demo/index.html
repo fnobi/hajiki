@@ -45,6 +45,12 @@ canvas.style.width = canvas.style.height = '100%';
 var ctx = canvas.getContext('2d');
 
 
+// setup sample image
+var IMAGE_SIZE = 128;
+var image = new Image();
+image.src = 'img/sample.png';
+
+
 // setup hajiki
 var hajiki = new Hajiki({
     el: canvas,
@@ -57,16 +63,16 @@ var hajiki = new Hajiki({
 });
 
 // animation frame
-var RECT_SIZE = 100;
 (function loop () {
     hajiki.calcPos();
 
     canvas.width = width;
-    ctx.fillRect(
-        hajiki.pos[0] - RECT_SIZE / 2,
-        hajiki.pos[1] - RECT_SIZE / 2,
-        RECT_SIZE,
-        RECT_SIZE
+    ctx.drawImage(
+        image,
+        hajiki.pos[0] - IMAGE_SIZE / 2,
+        hajiki.pos[1] - IMAGE_SIZE / 2,
+        IMAGE_SIZE,
+        IMAGE_SIZE
     );
 
     requestAnimationFrame(loop);
