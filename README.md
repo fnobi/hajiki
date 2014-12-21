@@ -47,7 +47,7 @@ var hajiki = new Hajiki({
     // clear canvas
     canvas.width = width;
 
-    // re-calculation position
+    // re-calculate position
     hajiki.calcPos();
 
     // draw image on Hajiki position
