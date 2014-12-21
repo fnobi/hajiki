@@ -1,15 +1,15 @@
 {
   "name": "hajiki",
   "description": "physical touch motion library.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "src/js/hajiki.js",
   "dependencies": {
     "event-trigger": "~0.1.1"
   },
   "ignore": [
-      "Gruntfile.js",
-      "package.json",
-      "demo",
-      "hajiki.js"
+    "Gruntfile.js",
+    "package.json",
+    "demo",
+    "hajiki.js"
   ]
 }
