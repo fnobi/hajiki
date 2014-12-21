@@ -24,11 +24,14 @@ var hajiki = new Hajiki({
     radius: IMAGE_SIZE / 2
 });
 
-// animation frame
 (function loop () {
+    // clear canvas
+    canvas.width = width;
+
+    // re-calculation position
     hajiki.calcPos();
 
-    canvas.width = width;
+    // draw image on Hajiki position
     ctx.drawImage(
         image,
         hajiki.pos[0] - IMAGE_SIZE / 2,
@@ -37,5 +40,6 @@ var hajiki = new Hajiki({
         IMAGE_SIZE
     );
 
+    // repeat on animation frame
     requestAnimationFrame(loop);
 })();
