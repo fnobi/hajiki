@@ -21,9 +21,7 @@ image.src = 'img/sample.png';
 var hajiki = new Hajiki({
     el: canvas,
     pos: [ width / 2, height / 2 ],
-    radius: IMAGE_SIZE / 2,
-    disableGrip: false,
-    disableDeviceMotion: false
+    radius: IMAGE_SIZE / 2
 });
 
 // animation frame

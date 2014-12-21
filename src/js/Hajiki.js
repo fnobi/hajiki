@@ -1,10 +1,9 @@
 var Hajiki = function (opts) {
     opts = opts || {};
 
+    var undef;
+
     this.el = opts.el || document.createElement('canvas');
-
-    this.grip = false;
-
     this.pos = opts.pos || [0, 0];
     this.friction = isNaN(opts.friction) ? 0.8 : opts.friction;
     this.potentialRate = isNaN(opts.potentialRate) ? 0.1 : opts.potentialRate;
@@ -13,26 +12,23 @@ var Hajiki = function (opts) {
     this.throwPower = isNaN(opts.throwPower) ? 1 : opts.throwPower;
     this.resolution = isNaN(opts.resolution) ? 1 : opts.resolution;
     this.radius = opts.radius;
+    this.enableGrip = (opts.enableGrip === undef) ? true : opts.enableGrip;
+    this.enableDeviceMotion = (opts.enableDeviceMotion === undef) ? true : opts.enableDeviceMotion;
 
-    this.acc = [0, 0];
-
-    this.setOrigin(this.pos[0], this.pos[1]);
-
-    this.disableGrip = opts.disableGrip;
-    this.disableDeviceMotion = opts.disableDeviceMotion;
-
+    this.grip = false;
     this.hover = false;
+    this.acc = [0, 0];
+    this.setOrigin(this.pos[0], this.pos[1]);
 
     this.initListener();
 };
 Hajiki = EventTrigger.extend(Hajiki);
 
 Hajiki.prototype.initListener = function () {
-    if (!this.disableGrip) {
+    if (this.enableGrip) {
         this.initGripListener();
     }
-
-    if (!this.disableDeviceMotion) {
+    if (this.enableDeviceMotion) {
         this.initDeviceListener();
     }
 };
