@@ -2,6 +2,9 @@
 
 physical touch motion library.
 
+## demo
+ - http://fnobi.github.io/hajiki/demo
+
 ## install
 
 ```
