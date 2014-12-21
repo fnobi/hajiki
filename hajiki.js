@@ -170,39 +170,39 @@ Hajiki.prototype.setRadius = function (r) {
 };
 
 Hajiki.prototype.initGripListener = function () {
-    var self = this,
+    var instance = this,
         el = this.el;
 
     el.addEventListener('mousedown', function (e) {
-        var success = self.startGrip(e);
+        var success = instance.startGrip(e);
         if (success) {
             e.preventDefault();
         }
     });
     el.addEventListener('mouseup', function () {
-        self.endGrip();
+        instance.endGrip();
     });
     el.addEventListener('mousemove', function (e) {
         e.preventDefault();
 
         // hover flag
-        if (self.onCircle(e.pageX, e.pageY)) {
-            if (!self.hover) {
-                self.hover = true;
-                self.emit('mouseover', e);
+        if (instance.onCircle(e.pageX, e.pageY)) {
+            if (!instance.hover) {
+                instance.hover = true;
+                instance.emit('mouseover', e);
             }
         } else {
-            if (self.hover) {
-                self.hover = false;
-                self.emit('mouseout', e);
+            if (instance.hover) {
+                instance.hover = false;
+                instance.emit('mouseout', e);
             }
         }
 
-        if (!self.grip) {
+        if (!instance.grip) {
             return;
         }
 
-        self.processGrip(e);
+        instance.processGrip(e);
     });
 
     el.addEventListener('touchstart', function (e) {
@@ -210,19 +210,19 @@ Hajiki.prototype.initGripListener = function () {
         if (!touch) {
             return;
         }
-        var success = self.startGrip(touch);
+        var success = instance.startGrip(touch);
         if (success) {
             e.preventDefault();
         }
     });
     el.addEventListener('touchend', function () {
-        self.endGrip();
+        instance.endGrip();
     });
 
     el.addEventListener('touchmove', function (e) {
         var touch = e.touches[0];
 
-        if (!self.grip) {
+        if (!instance.grip) {
             return;
         }
         if (!touch) {
@@ -230,23 +230,23 @@ Hajiki.prototype.initGripListener = function () {
         }
 
         e.preventDefault();
-        self.processGrip(touch);
+        instance.processGrip(touch);
     });
 };
 
 Hajiki.prototype.initDeviceListener = function () {
-    var self = this;
+    var instance = this;
 
     window.addEventListener('devicemotion', function (e) {
         var ac = e.acceleration,
-            deviceGate = self.deviceGate,
-            deviceRate = self.deviceRate;
+            deviceGate = instance.deviceGate,
+            deviceRate = instance.deviceRate;
 
         if (Math.abs(ac.x) >= deviceGate) {
-            self.acc[0] = -ac.x * deviceRate;
+            instance.acc[0] = -ac.x * deviceRate;
         }
         if (Math.abs(ac.y) >= deviceGate) {
-            self.acc[1] = ac.y * deviceRate;
+            instance.acc[1] = ac.y * deviceRate;
         }
     });
 };
