@@ -1,0 +1,10 @@
+{
+  "name": "hajiki",
+  "description": "physical touch motion library.",
+  "version": "0.1.0",
+  "main": "src/js/hajiki.js",
+  "dependencies": {
+    "jquery": "~1.10.*",
+    "event-trigger": "~0.1.1"
+  }
+}
