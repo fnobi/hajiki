@@ -128,7 +128,8 @@ var Hajiki = function (opts) {
     var undef;
 
     this.el = opts.el || document.createElement('canvas');
-    this.pos = opts.pos || [0, 0];
+    this.x = isNaN(opts.defaultX) ? 0 : opts.defaultX;
+    this.y = isNaN(opts.defaultY) ? 0 : opts.defaultY;
     this.friction = isNaN(opts.friction) ? 0.8 : opts.friction;
     this.potentialRate = isNaN(opts.potentialRate) ? 0.1 : opts.potentialRate;
     this.deviceRate = isNaN(opts.deviceRate) ? 5 : opts.deviceRate;
@@ -142,8 +143,8 @@ var Hajiki = function (opts) {
     this.grip = false;
     this.hover = false;
     this.acc = [0, 0];
-    this.setOrigin(this.pos[0], this.pos[1]);
 
+    this.setOrigin(opts.originX, opts.originY);
     this.initListener();
 };
 Hajiki = EventTrigger.extend(Hajiki);
@@ -158,7 +159,10 @@ Hajiki.prototype.initListener = function () {
 };
 
 Hajiki.prototype.setOrigin = function (x, y) {
-    this.originPos = [x, y];
+    x = isNaN(x) ? 0 : x;
+    y = isNaN(y) ? 0 : y;
+    this.originX = x;
+    this.originY = y;
 };
 
 Hajiki.prototype.setRadius = function (r) {
@@ -255,8 +259,8 @@ Hajiki.prototype.onCircle = function (x, y) {
         return true;
     }
 
-    var w = x * resolution - this.pos[0];
-    var h = y * resolution - this.pos[1];
+    var w = x * resolution - this.x;
+    var h = y * resolution - this.y;
     var d = Math.sqrt(w * w + h * h);
 
     if (d < radius) {
@@ -275,10 +279,8 @@ Hajiki.prototype.startGrip = function (e) {
     
     this.grip = true;
     this.gripMove = false;
-    this.prevPos = [
-        e.pageX * resolution,
-        e.pageY * resolution
-    ];
+    this.prevX = e.pageX * resolution;
+    this.prevY = e.pageY * resolution;
 
     return true;
 };
@@ -294,21 +296,20 @@ Hajiki.prototype.endGrip = function () {
         this.emit('click');
     } else if (this.throwPower > 0) {
         this.acc = [
-            (this.originPos[0] - this.pos[0]) / this.throwPower,
-            (this.originPos[1] - this.pos[1]) / this.throwPower
+            (this.originX - this.x) / this.throwPower,
+            (this.originY - this.y) / this.throwPower
         ];
     }
 };
 
 Hajiki.prototype.processGrip = function (e) {
-    var prevPos = this.prevPos;
     var resolution = this.resolution;
 
-    this.pos[0] += e.pageX * resolution - prevPos[0];
-    this.pos[1] += e.pageY * resolution - prevPos[1];
+    this.x += e.pageX * resolution - this.prevX;
+    this.y += e.pageY * resolution - this.prevY;
 
-    this.prevPos[0] = e.pageX * resolution;
-    this.prevPos[1] = e.pageY * resolution;
+    this.prevX = e.pageX * resolution;
+    this.prevY = e.pageY * resolution;
 
     this.gripMove = true;
 };
@@ -319,19 +320,17 @@ Hajiki.prototype.calcPos = function () {
     }
 
     var el = this.el,
-        pos = this.pos,
-        originPos = this.originPos,
         acc = this.acc,
         friction = this.friction,
         potentialRate = this.potentialRate,
         potential = [
-            (originPos[0] - pos[0]) * potentialRate,
-            (originPos[1] - pos[1]) * potentialRate
+            (this.originX - this.x) * potentialRate,
+            (this.originY - this.y) * potentialRate
         ];
 
     // accel
-    pos[0] += acc[0];
-    pos[1] += acc[1];
+    this.x += acc[0];
+    this.y += acc[1];
 
     // friction
     this.acc[0] = (acc[0] + potential[0]) * friction;

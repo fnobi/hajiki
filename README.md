@@ -36,8 +36,11 @@ image.src = 'img/sample.png';
 // setup hajiki
 var hajiki = new Hajiki({
     el: canvas,
-    pos: [ width / 2, height / 2 ],
-    radius: IMAGE_SIZE / 2
+    radius: IMAGE_SIZE / 2,
+    defaultX: width / 2,
+    defaultY: 0,
+    originX: width / 2,
+    originY: height / 2
 });
 
 (function loop () {
@@ -50,8 +53,8 @@ var hajiki = new Hajiki({
     // draw image on Hajiki position
     ctx.drawImage(
         image,
-        hajiki.pos[0] - IMAGE_SIZE / 2,
-        hajiki.pos[1] - IMAGE_SIZE / 2,
+        hajiki.x - IMAGE_SIZE / 2,
+        hajiki.y - IMAGE_SIZE / 2,
         IMAGE_SIZE,
         IMAGE_SIZE
     );
