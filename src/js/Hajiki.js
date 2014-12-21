@@ -11,7 +11,7 @@ var Hajiki = function (opts) {
     this.deviceRate = opts.deviceRate || 5;
     this.deviceGate = opts.deviceGate || 4;
     this.throwPower = opts.throwPower || 0;
-
+    this.resolution = isNaN(opts.resolution) ? 1 : opts.resolution;
     this.radius = opts.radius;
 
     this.acc = [0, 0];
@@ -129,13 +129,14 @@ Hajiki.prototype.initDeviceListener = function () {
 
 Hajiki.prototype.onCircle = function (x, y) {
     var radius = this.radius;
+    var resolution = this.resolution;
 
     if (isNaN(radius)) {
         return true;
     }
 
-    var w = x * 2 - this.pos[0];
-    var h = y * 2 - this.pos[1];
+    var w = x * resolution - this.pos[0];
+    var h = y * resolution - this.pos[1];
     var d = Math.sqrt(w * w + h * h);
 
     if (d < radius) {
@@ -147,12 +148,17 @@ Hajiki.prototype.onCircle = function (x, y) {
 
 Hajiki.prototype.startGrip = function (e) {
     if (!this.onCircle(e.pageX, e.pageY)) {
-        return;
+        return false;
     }
+
+    var resolution = this.resolution;
     
     this.grip = true;
     this.gripMove = false;
-    this.prevPos = [e.pageX * 2, e.pageY * 2];
+    this.prevPos = [
+        e.pageX * resolution,
+        e.pageY * resolution
+    ];
 
     return true;
 };
@@ -176,12 +182,13 @@ Hajiki.prototype.endGrip = function () {
 
 Hajiki.prototype.processGrip = function (e) {
     var prevPos = this.prevPos;
+    var resolution = this.resolution;
 
-    this.pos[0] += e.pageX * 2 - prevPos[0];
-    this.pos[1] += e.pageY * 2 - prevPos[1];
+    this.pos[0] += e.pageX * resolution - prevPos[0];
+    this.pos[1] += e.pageY * resolution - prevPos[1];
 
-    this.prevPos[0] = e.pageX * 2;
-    this.prevPos[1] = e.pageY * 2;
+    this.prevPos[0] = e.pageX * resolution;
+    this.prevPos[1] = e.pageY * resolution;
 
     this.gripMove = true;
 };
