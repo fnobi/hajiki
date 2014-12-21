@@ -10,6 +10,8 @@
     "Gruntfile.js",
     "package.json",
     "demo",
-    "hajiki.js"
+    "hajiki.js",
+    "src/ejs",
+    "src/options.yaml"
   ]
 }
