@@ -1,4 +1,6 @@
 var Hajiki = function (opts) {
+    opts = opts || {};
+
     this.el = opts.el || document.createElement('canvas');
 
     this.grip = false;
