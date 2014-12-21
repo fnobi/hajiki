@@ -4,15 +4,28 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <title><%= name %> demo</title>
+<style>
+body, h1, h2 {
+  font-family: sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+.content {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1em;
+}
+</style>  
+</style>
 </head>
 <body>
+<canvas id="hajiki" class="background"></canvas>
 <section class="content">
 <h1 class="content__title"><%= name %></h1>
 <h2 class="content__description"><%= description %></h2>
-<p>
-<a href="http://fnobi.github.io/hajiki/demo">http://fnobi.github.io/hajiki/demo</a>
-</p>
-<canvas id="hajiki"></canvas>
+<a href="http://github.com/fnobi/hajiki">http://github.com/fnobi/hajiki</a>
 <!-- /.content --></section>
 <script src="../hajiki.js"></script>
 <script>
